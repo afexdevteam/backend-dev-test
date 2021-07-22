@@ -6,7 +6,7 @@
 2. Change the database config to use PostgreSQL
 3. Config settings for dev, staging and production servers
 4. Add Two(2) security updates to the settings file
-5. Add Two(2) performance updates to the settings file
+5. Add Two(1) performance updates to the settings file
 
 A Django app has been created under `/apps/` called `crm`
 
