@@ -8,7 +8,6 @@ CLIENT_TYPE_CHOICE = (
     ('Client', 'Client'),
     ('Farmer', 'Farmer'),
     ('Input Partner', 'Input Partner'),
-    ('CMC', 'Collateral Management Client'),
     ('AFEXBroker', 'AFEXBroker'),
     ('Broker', 'Broker'),
     ('Dealer', 'Broker'),
@@ -19,7 +18,12 @@ CLIENT_TYPE_CHOICE = (
 )
 
 
-class Client(models.Model):
+class BaseModel(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+
+class Client(BaseModel):
     cid = models.CharField(max_length=60, unique=True, db_index=True)
     first_name = models.CharField(max_length=300)
     last_name = models.CharField(
@@ -31,8 +35,6 @@ class Client(models.Model):
     email = models.EmailField()
     address = models.TextField()
     phone = models.CharField(max_length=50, null=True, blank=True, default="")
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
         to=User, null=True, on_delete=models.CASCADE)
 
@@ -46,12 +48,8 @@ class Client(models.Model):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
-    @property
-    def name(self):
-        return self.full_name
 
-
-class ClientWallet(models.Model):
+class ClientWallet(BaseModel):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
     total_balance = models.DecimalField(
         max_digits=20, decimal_places=2, default=0)
@@ -59,15 +57,9 @@ class ClientWallet(models.Model):
         max_digits=20, decimal_places=2, default=0)
     lien_balance = models.DecimalField(
         max_digits=20, decimal_places=2, default=0)
-    cash_advance_limit = models.DecimalField(
-        max_digits=20, decimal_places=2, default=0)
-    cash_advance_spent = models.DecimalField(
-        max_digits=20, decimal_places=2, default=0)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.cid
+        return f"{self.cid} - {self.available_balance}"
 
     @property
     def cid(self):
