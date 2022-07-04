@@ -16,6 +16,7 @@ A Django app has been created under `/apps/` called `crm`
    c. Write/Configure API endpoints to fetch client (including their wallet balance)
    N:B You are to design an appropriate frontend for task in a & b above
 3. Set-up a web socket for the client wallet model
+4. Write a background task that populates the Client model with users from this [endpoint](https://62c2c06cff594c656764970a.mockapi.io/users). This task should run every hour.
 
 \*\*\* Optional
 

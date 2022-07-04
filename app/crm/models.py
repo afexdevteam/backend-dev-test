@@ -1,21 +1,4 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
-
-CLIENT_TYPE_CHOICE = (
-    ('Client', 'Client'),
-    ('Farmer', 'Farmer'),
-    ('Input Partner', 'Input Partner'),
-    ('AFEXBroker', 'AFEXBroker'),
-    ('Broker', 'Broker'),
-    ('Dealer', 'Broker'),
-    ('Affiliate', 'Affiliate'),
-    ('Broker-Dealer', 'Broker-Dealer'),
-    ('Promoter', 'Promoter'),
-    ('Investor', 'Investor'),
-)
 
 
 class BaseModel(models.Model):
@@ -28,15 +11,11 @@ class Client(BaseModel):
     first_name = models.CharField(max_length=300)
     last_name = models.CharField(
         max_length=300, null=True, blank=True, default="")
-    client_type = models.CharField(
-        choices=CLIENT_TYPE_CHOICE, max_length=300, null=True, blank=True, default="")
     country_code = models.CharField(
         max_length=30, blank=True, null=True, default="")
     email = models.EmailField()
     address = models.TextField()
     phone = models.CharField(max_length=50, null=True, blank=True, default="")
-    created_by = models.ForeignKey(
-        to=User, null=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['cid']
